@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Case 2 — The Secret Delivery</title>
+
+<style>
+
+body {
+background: linear-gradient(to bottom, #2c2c54, #3b3b6d);
+color: #f1efff;
+font-family: "Segoe UI", sans-serif;
+text-align: center;
+padding: 30px;
+}
+
+h1 {
+color: #e4dcff;
+text-shadow: 0 0 10px #cfc2ff;
+}
+
+.box {
+background: #ffffff10;
+padding: 20px;
+border-radius: 20px;
+width: 750px;
+margin: auto;
+backdrop-filter: blur(8px);
+}
+
+/* Dialogue box */
+
+.dialogue {
+background: #ffffff15;
+padding: 15px;
+border-radius: 20px;
+margin-top: 20px;
+cursor: pointer;
+}
+
+.character {
+font-weight: bold;
+color: #d9d1ff;
+}
+
+.map {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 10px;
+margin-top: 20px;
+}
+
+.room {
+background: #ffffff10;
+padding: 20px;
+border-radius: 15px;
+cursor: pointer;
+}
+
+.room:hover {
+background: #ffffff20;
+}
+
+.evidence {
+margin-top: 20px;
+background: #ffffff10;
+padding: 15px;
+border-radius: 15px;
+}
+
+input {
+padding: 10px;
+border-radius: 15px;
+border: none;
+margin-top: 15px;
+}
+
+button {
+background: #8c88d9;
+color: white;
+border: none;
+padding: 10px 20px;
+border-radius: 15px;
+margin-top: 10px;
+cursor: pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>✧ Case 2 — The Secret Delivery ✧</h1>
+
+<div class="box">
+
+<div class="dialogue" onclick="nextDialogue()">
+<span class="character" id="speaker">Luna</span><br>
+<span id="text">I... didn't steal them...</span>
+</div>
+
+<div id="game" style="display:none;">
+
+<h3>✧ Explore Outside ✧</h3>
+
+<div class="map">
+
+<div class="room" onclick="room('alley')">Back Alley</div>
+<div class="room" onclick="room('bench')">Park Bench</div>
+<div class="room" onclick="room('street')">Quiet Street</div>
+<div class="room" onclick="room('lamp')">Street Lamp</div>
+<div class="room" onclick="room('trash')">Trash Area</div>
+<div class="room" onclick="room('footprints')">Footprints</div>
+
+</div>
+
+<div class="evidence" id="evidence">
+✧ Evidence Board ✧<br>
+No clues yet...
+</div>
+
+<input type="text" id="answer" placeholder="Who received the pastries?">
+
+<br>
+
+<button onclick="checkAnswer()">Submit</button>
+
+</div>
+
+</div>
+
+<script>
+
+/* Dialogue */
+
+let dialogue = [
+["Luna", "I... didn't steal them..."],
+["You", "Then why were you baking at midnight?"],
+["Luna", "I was delivering pastries..."],
+["You", "Delivering? At midnight?"],
+["Luna", "Please... find out who I was helping..."]
+]
+
+let index = 0;
+
+function nextDialogue(){
+
+index++
+
+if(index < dialogue.length){
+document.getElementById("speaker").innerText = dialogue[index][0]
+document.getElementById("text").innerText = dialogue[index][1]
+}
+else{
+document.querySelector(".dialogue").style.display="none"
+document.getElementById("game").style.display="block"
+}
+
+}
+
+/* Game */
+
+let clues = []
+
+function room(place){
+
+if(place==="alley") clues.push("Box found in alley")
+if(place==="bench") clues.push("Someone waited at bench")
+if(place==="street") clues.push("Quiet street at midnight")
+if(place==="lamp") clues.push("Lamp flickering")
+if(place==="trash") clues.push("Pastry wrapper found")
+if(place==="footprints") clues.push("Small footprints")
+
+update()
+
+}
+
+function update(){
+document.getElementById("evidence").innerHTML =
+"✧ Evidence Board ✧<br>" + [...new Set(clues)].join("<br>")
+}
+
+function checkAnswer(){
+
+let answer =
+document.getElementById("answer").value.toLowerCase()
+
+if(answer==="iris" && clues.length>=3){
+alert("✧ Iris secretly received midnight pastries...");
+}
+else{
+alert("✧ Keep investigating...");
+}
+
+}
+
+</script>
+
+</body>
+</html>
