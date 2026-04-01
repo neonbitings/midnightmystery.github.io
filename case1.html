@@ -11,6 +11,38 @@ color: #f1efff;
 font-family: "Segoe UI", sans-serif;
 text-align: center;
 padding: 30px;
+overflow-x: hidden;
+}
+
+/* Floating Clouds */
+
+.cloud {
+position: absolute;
+background: #ffffff20;
+border-radius: 50px;
+opacity: 0.4;
+animation: float 40s linear infinite;
+}
+
+.cloud1 {
+width: 120px;
+height: 50px;
+top: 80px;
+left: -150px;
+animation-delay: 0s;
+}
+
+.cloud2 {
+width: 150px;
+height: 60px;
+top: 200px;
+left: -200px;
+animation-delay: 10s;
+}
+
+@keyframes float {
+from { transform: translateX(0); }
+to { transform: translateX(120vw); }
 }
 
 h1 {
@@ -27,12 +59,12 @@ margin: auto;
 backdrop-filter: blur(8px);
 }
 
-/* Chibi Sprites */
+/* Suspects */
 
 .suspects {
 display: flex;
 justify-content: center;
-gap: 20px;
+gap: 30px;
 margin-top: 20px;
 }
 
@@ -42,19 +74,16 @@ transition: 0.3s;
 }
 
 .suspect:hover {
-transform: scale(1.1);
+transform: scale(1.05);
 }
 
-.chibi {
-width: 90px;
-height: 90px;
-background: #ffffff15;
-border-radius: 20px;
-display: flex;
-align-items: center;
-justify-content: center;
-margin: auto;
-font-size: 30px;
+.sprite {
+width: 100px;
+transition: 0.3s;
+}
+
+.sprite:hover {
+transform: scale(1.1);
 }
 
 /* Map */
@@ -85,6 +114,7 @@ margin-top: 20px;
 background: #ffffff10;
 padding: 15px;
 border-radius: 15px;
+min-height: 60px;
 }
 
 button {
@@ -97,11 +127,16 @@ margin-top: 15px;
 cursor: pointer;
 }
 
+button:hover {
+background: #a29eff;
+}
+
 input {
 padding: 10px;
 border-radius: 15px;
 border: none;
 margin-top: 15px;
+width: 200px;
 }
 
 </style>
@@ -110,32 +145,33 @@ margin-top: 15px;
 
 <body>
 
+<!-- Clouds -->
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+
 <h1>✧ Case 1 — Midnight Bakery ✧</h1>
 
 <div class="box">
 
-<p>
-Someone stole pastries at midnight...<br>
-Explore the bakery and question suspects.
-</p>
+<p id="intro"></p>
 
 <h3>✧ Suspects ✧</h3>
 
 <div class="suspects">
 
 <div class="suspect" onclick="suspect('luna')">
-<div class="chibi">✿</div>
-Luna
+<img class="sprite" src="https://i.imgur.com/8Q1ZQ0F.png">
+<br>Luna
 </div>
 
 <div class="suspect" onclick="suspect('milo')">
-<div class="chibi">✦</div>
-Milo
+<img class="sprite" src="https://i.imgur.com/Qf6K6zC.png">
+<br>Milo
 </div>
 
 <div class="suspect" onclick="suspect('iris')">
-<div class="chibi">✧</div>
-Iris
+<img class="sprite" src="https://i.imgur.com/UyX0gQb.png">
+<br>Iris
 </div>
 
 </div>
@@ -144,29 +180,12 @@ Iris
 
 <div class="map">
 
-<div class="room" onclick="room('kitchen')">
-Kitchen
-</div>
-
-<div class="room" onclick="room('counter')">
-Front Counter
-</div>
-
-<div class="room" onclick="room('storage')">
-Storage Room
-</div>
-
-<div class="room" onclick="room('office')">
-Office
-</div>
-
-<div class="room" onclick="room('oven')">
-Oven Area
-</div>
-
-<div class="room" onclick="room('backdoor')">
-Back Door
-</div>
+<div class="room" onclick="room('kitchen')">Kitchen</div>
+<div class="room" onclick="room('counter')">Front Counter</div>
+<div class="room" onclick="room('storage')">Storage Room</div>
+<div class="room" onclick="room('office')">Office</div>
+<div class="room" onclick="room('oven')">Oven Area</div>
+<div class="room" onclick="room('backdoor')">Back Door</div>
 
 </div>
 
@@ -183,23 +202,48 @@ No clues yet...
 
 </div>
 
+<!-- Cute sounds -->
+<audio id="clickSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4f48dcb5d0.mp3?filename=mouse-click-153941.mp3"></audio>
+<audio id="squeakSound" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_6e8a7cbdeb.mp3?filename=squeak-1-94659.mp3"></audio>
+
 <script>
+
+/* Typing animation */
+
+let text = "Someone stole pastries at midnight... Explore the bakery and question suspects."
+let i = 0
+
+function typing(){
+if(i < text.length){
+document.getElementById("intro").innerHTML += text.charAt(i)
+i++
+setTimeout(typing, 25)
+}
+}
+
+typing()
+
+/* Sounds */
+
+function playClick(){
+document.getElementById("clickSound").play()
+}
+
+function playSqueak(){
+document.getElementById("squeakSound").play()
+}
+
+/* Game */
 
 let clues = []
 
 function suspect(name){
 
-if(name==="luna" && !clues.includes("luna")){
-clues.push("Luna works at midnight")
-}
+playSqueak()
 
-if(name==="milo" && !clues.includes("milo")){
-clues.push("Milo says he was asleep")
-}
-
-if(name==="iris" && !clues.includes("iris")){
-clues.push("Iris arrives early morning")
-}
+if(name==="luna") clues.push("Luna works at midnight")
+if(name==="milo") clues.push("Milo says he was asleep")
+if(name==="iris") clues.push("Iris arrives early morning")
 
 update()
 
@@ -207,29 +251,14 @@ update()
 
 function room(place){
 
-if(place==="kitchen" && !clues.includes("Flour footprints")){
-clues.push("Flour footprints in kitchen")
-}
+playClick()
 
-if(place==="counter" && !clues.includes("Missing pastries")){
-clues.push("Pastries missing from counter")
-}
-
-if(place==="storage" && !clues.includes("Apron")){
-clues.push("Flour-covered apron found")
-}
-
-if(place==="office" && !clues.includes("Schedule")){
-clues.push("Luna scheduled at midnight")
-}
-
-if(place==="oven" && !clues.includes("Warm oven")){
-clues.push("Oven still warm at midnight")
-}
-
-if(place==="backdoor" && !clues.includes("Locked door")){
-clues.push("Back door still locked")
-}
+if(place==="kitchen") clues.push("Flour footprints in kitchen")
+if(place==="counter") clues.push("Pastries missing from counter")
+if(place==="storage") clues.push("Flour-covered apron found")
+if(place==="office") clues.push("Luna scheduled at midnight")
+if(place==="oven") clues.push("Oven still warm at midnight")
+if(place==="backdoor") clues.push("Back door still locked")
 
 update()
 
@@ -238,7 +267,7 @@ update()
 function update(){
 
 document.getElementById("evidence").innerHTML =
-"✧ Evidence Board ✧<br>" + clues.join("<br>")
+"✧ Evidence Board ✧<br>" + [...new Set(clues)].join("<br>")
 
 }
 
@@ -248,8 +277,8 @@ let answer =
 document.getElementById("answer").value.toLowerCase()
 
 if(answer==="luna" && clues.length>=3){
-alert("✧ Luna looks nervous... 'I didn't steal them... I was covering for someone.'");
-window.location.href="case2.html";
+alert("✧ Luna looks nervous... 'I didn't steal them... I was covering for someone.'")
+window.location.href="case2.html"
 }
 
 else{
@@ -261,5 +290,4 @@ alert("✧ Keep investigating...")
 </script>
 
 </body>
-
 </html>
