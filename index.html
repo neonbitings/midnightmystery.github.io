@@ -5,30 +5,54 @@
 
 <style>
 body {
-  background: #0b0b1a;
-  color: #e6e6ff;
+  background: linear-gradient(to bottom, #1b1b2f, #2c2c54);
+  color: #e8e8ff;
   font-family: Arial, sans-serif;
   text-align: center;
   padding-top: 100px;
+  overflow: hidden;
 }
 
 h1 {
-  font-size: 40px;
-  color: #c9b6ff;
+  font-size: 42px;
+  color: #d6c6ff;
+  text-shadow: 0 0 8px #b8a8ff;
+}
+
+p {
+  color: #dcdcff;
 }
 
 button {
-  background: #1f1f3d;
-  color: white;
-  border: 1px solid #c9b6ff;
+  background: #2f2f5a;
+  color: #f0ecff;
+  border: 1px solid #bfaeff;
   padding: 12px 20px;
-  border-radius: 12px;
+  border-radius: 14px;
   cursor: pointer;
   margin-top: 20px;
+  transition: 0.3s;
 }
 
 button:hover {
-  background: #2a2a5a;
+  background: #3a3a72;
+  box-shadow: 0 0 8px #bfaeff;
+}
+
+/* soft stars */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #e8e8ff;
+  opacity: 0.6;
+  animation: twinkle 4s infinite;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.2; }
 }
 </style>
 
@@ -36,12 +60,23 @@ button:hover {
 
 <body>
 
-<h1> Midnight 𖹭 Mystery</h1>
+<h1>Midnight 🌙 Mystery</h1>
 <p>Do you have what it takes to solve a case?</p>
 
-<button onclick="alert('Your first clue: Not everything is visible...')">
+<button onclick="alert('Your first clue: The answer may be hidden...')">
 Start Case 1
 </button>
+
+<script>
+for(let i=0;i<60;i++){
+  let star = document.createElement("div");
+  star.className = "star";
+  star.style.top = Math.random()*100 + "vh";
+  star.style.left = Math.random()*100 + "vw";
+  star.style.animationDelay = Math.random()*4 + "s";
+  document.body.appendChild(star);
+}
+</script>
 
 </body>
 </html>
