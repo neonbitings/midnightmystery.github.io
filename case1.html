@@ -14,7 +14,7 @@ padding: 30px;
 overflow-x: hidden;
 }
 
-/* Floating Clouds */
+/* Clouds */
 
 .cloud {
 position: absolute;
@@ -29,7 +29,6 @@ width: 120px;
 height: 50px;
 top: 80px;
 left: -150px;
-animation-delay: 0s;
 }
 
 .cloud2 {
@@ -59,8 +58,6 @@ margin: auto;
 backdrop-filter: blur(8px);
 }
 
-/* Suspects */
-
 .suspects {
 display: flex;
 justify-content: center;
@@ -73,10 +70,6 @@ cursor: pointer;
 transition: 0.3s;
 }
 
-.suspect:hover {
-transform: scale(1.05);
-}
-
 .sprite {
 width: 100px;
 transition: 0.3s;
@@ -85,8 +78,6 @@ transition: 0.3s;
 .sprite:hover {
 transform: scale(1.1);
 }
-
-/* Map */
 
 .map {
 margin-top: 25px;
@@ -100,14 +91,11 @@ background: #ffffff10;
 padding: 20px;
 border-radius: 15px;
 cursor: pointer;
-transition: 0.3s;
 }
 
 .room:hover {
 background: #ffffff20;
 }
-
-/* Evidence */
 
 .evidence {
 margin-top: 20px;
@@ -127,16 +115,11 @@ margin-top: 15px;
 cursor: pointer;
 }
 
-button:hover {
-background: #a29eff;
-}
-
 input {
 padding: 10px;
 border-radius: 15px;
 border: none;
 margin-top: 15px;
-width: 200px;
 }
 
 </style>
@@ -145,7 +128,6 @@ width: 200px;
 
 <body>
 
-<!-- Clouds -->
 <div class="cloud cloud1"></div>
 <div class="cloud cloud2"></div>
 
@@ -160,17 +142,17 @@ width: 200px;
 <div class="suspects">
 
 <div class="suspect" onclick="suspect('luna')">
-<img class="sprite" src="https://i.imgur.com/8Q1ZQ0F.png">
+<img class="sprite" src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png">
 <br>Luna
 </div>
 
 <div class="suspect" onclick="suspect('milo')">
-<img class="sprite" src="https://i.imgur.com/Qf6K6zC.png">
+<img class="sprite" src="https://cdn-icons-png.flaticon.com/512/4140/4140037.png">
 <br>Milo
 </div>
 
 <div class="suspect" onclick="suspect('iris')">
-<img class="sprite" src="https://i.imgur.com/UyX0gQb.png">
+<img class="sprite" src="https://cdn-icons-png.flaticon.com/512/4140/4140051.png">
 <br>Iris
 </div>
 
@@ -198,17 +180,16 @@ No clues yet...
 
 <br>
 
-<button onclick="checkAnswer()">Submit Answer</button>
+<button onclick="checkAnswer()">Submit</button>
 
 </div>
 
-<!-- Cute sounds -->
-<audio id="clickSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4f48dcb5d0.mp3?filename=mouse-click-153941.mp3"></audio>
-<audio id="squeakSound" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_6e8a7cbdeb.mp3?filename=squeak-1-94659.mp3"></audio>
+<audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3"></audio>
+<audio id="squeakSound" src="https://assets.mixkit.co/sfx/preview/mixkit-mouse-click-close-1113.mp3"></audio>
 
 <script>
 
-/* Typing animation */
+/* Typing */
 
 let text = "Someone stole pastries at midnight... Explore the bakery and question suspects."
 let i = 0
@@ -217,7 +198,7 @@ function typing(){
 if(i < text.length){
 document.getElementById("intro").innerHTML += text.charAt(i)
 i++
-setTimeout(typing, 25)
+setTimeout(typing,25)
 }
 }
 
@@ -225,21 +206,19 @@ typing()
 
 /* Sounds */
 
-function playClick(){
+function click(){
 document.getElementById("clickSound").play()
 }
 
-function playSqueak(){
+function squeak(){
 document.getElementById("squeakSound").play()
 }
-
-/* Game */
 
 let clues = []
 
 function suspect(name){
 
-playSqueak()
+squeak()
 
 if(name==="luna") clues.push("Luna works at midnight")
 if(name==="milo") clues.push("Milo says he was asleep")
@@ -251,14 +230,14 @@ update()
 
 function room(place){
 
-playClick()
+click()
 
 if(place==="kitchen") clues.push("Flour footprints in kitchen")
-if(place==="counter") clues.push("Pastries missing from counter")
-if(place==="storage") clues.push("Flour-covered apron found")
-if(place==="office") clues.push("Luna scheduled at midnight")
-if(place==="oven") clues.push("Oven still warm at midnight")
-if(place==="backdoor") clues.push("Back door still locked")
+if(place==="counter") clues.push("Pastries missing")
+if(place==="storage") clues.push("Flour apron found")
+if(place==="office") clues.push("Luna scheduled midnight")
+if(place==="oven") clues.push("Oven still warm")
+if(place==="backdoor") clues.push("Back door locked")
 
 update()
 
@@ -277,10 +256,9 @@ let answer =
 document.getElementById("answer").value.toLowerCase()
 
 if(answer==="luna" && clues.length>=3){
-alert("✧ Luna looks nervous... 'I didn't steal them... I was covering for someone.'")
+alert("✧ Luna looks nervous... 'I was covering for someone...'")
 window.location.href="case2.html"
 }
-
 else{
 alert("✧ Keep investigating...")
 }
