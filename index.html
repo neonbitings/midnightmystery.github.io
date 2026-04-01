@@ -5,77 +5,145 @@
 
 <style>
 body {
-  background: linear-gradient(to bottom, #1b1b2f, #2c2c54);
-  color: #e8e8ff;
-  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #2a2a4a, #3b3b6d);
+  color: #f0efff;
+  font-family: "Segoe UI", sans-serif;
   text-align: center;
-  padding-top: 100px;
+  padding-top: 120px;
   overflow: hidden;
 }
 
+/* Title */
 h1 {
   font-size: 42px;
-  color: #d6c6ff;
-  text-shadow: 0 0 8px #b8a8ff;
+  color: #e0d6ff;
+  text-shadow: 0 0 15px #cbb8ff;
 }
 
 p {
-  color: #dcdcff;
+  color: #e6e3ff;
 }
 
+/* Button */
 button {
-  background: #2f2f5a;
-  color: #f0ecff;
-  border: 1px solid #bfaeff;
-  padding: 12px 20px;
-  border-radius: 14px;
+  background: #6e6bbd;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 20px;
   cursor: pointer;
   margin-top: 20px;
   transition: 0.3s;
+  box-shadow: 0 0 10px #a9a2ff;
 }
 
 button:hover {
-  background: #3a3a72;
-  box-shadow: 0 0 8px #bfaeff;
+  background: #8784d9;
+  box-shadow: 0 0 20px #c4bdff;
 }
 
-/* soft stars */
+/* Stars */
 .star {
   position: absolute;
-  width: 2px;
-  height: 2px;
-  background: #e8e8ff;
-  opacity: 0.6;
+  width: 3px;
+  height: 3px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #fff;
   animation: twinkle 4s infinite;
 }
 
 @keyframes twinkle {
-  0% { opacity: 0.2; }
-  50% { opacity: 0.8; }
-  100% { opacity: 0.2; }
+  0% {opacity:0.3;}
+  50% {opacity:1;}
+  100% {opacity:0.3;}
 }
+
+/* Clouds */
+.cloud {
+  position: absolute;
+  background: #ffffff20;
+  width: 140px;
+  height: 40px;
+  border-radius: 50px;
+  animation: float 80s linear infinite;
+}
+
+.cloud:before {
+  content: "";
+  position: absolute;
+  background: #ffffff20;
+  width: 60px;
+  height: 60px;
+  top: -20px;
+  left: 20px;
+  border-radius: 50%;
+}
+
+.cloud:after {
+  content: "";
+  position: absolute;
+  background: #ffffff20;
+  width: 70px;
+  height: 70px;
+  top: -30px;
+  right: 20px;
+  border-radius: 50%;
+}
+
+@keyframes float {
+  from { transform: translateX(-200px); }
+  to { transform: translateX(100vw); }
+}
+
+/* Detective Badge */
+.badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #ffffff15;
+  padding: 10px 15px;
+  border-radius: 15px;
+  font-size: 14px;
+  backdrop-filter: blur(5px);
+}
+
 </style>
 
 </head>
 
 <body>
 
-<h1>Midnight✦ Mystery</h1>
+<div class="badge">🕵️ Detective Portal</div>
+
+<h1>Midnight ✦ Mystery</h1>
 <p>⋆˚꩜｡ just you, the moon, and a clue.</p>
 
-<button onclick="alert('₊⊹ CLUE : Your answer may be hidden..')">
+<button onclick="location.href='case1.html'">
 Start Case 1
 </button>
 
 <script>
-for(let i=0;i<60;i++){
-  let star = document.createElement("div");
-  star.className = "star";
-  star.style.top = Math.random()*100 + "vh";
-  star.style.left = Math.random()*100 + "vw";
-  star.style.animationDelay = Math.random()*4 + "s";
-  document.body.appendChild(star);
+
+/* Stars */
+for(let i=0;i<80;i++){
+let star = document.createElement("div");
+star.className="star";
+star.style.top=Math.random()*100+"vh";
+star.style.left=Math.random()*100+"vw";
+star.style.animationDelay=Math.random()*4+"s";
+document.body.appendChild(star);
 }
+
+/* Clouds */
+for(let i=0;i<4;i++){
+let cloud = document.createElement("div");
+cloud.className="cloud";
+cloud.style.top=Math.random()*60+"vh";
+cloud.style.animationDelay=Math.random()*50+"s";
+document.body.appendChild(cloud);
+}
+
 </script>
 
 </body>
