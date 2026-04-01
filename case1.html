@@ -10,7 +10,7 @@ background: linear-gradient(to bottom, #2c2c54, #3b3b6d);
 color: #f1efff;
 font-family: "Segoe UI", sans-serif;
 text-align: center;
-padding: 50px;
+padding: 30px;
 }
 
 h1 {
@@ -20,44 +20,81 @@ text-shadow: 0 0 10px #cfc2ff;
 
 .box {
 background: #ffffff10;
-padding: 25px;
+padding: 20px;
 border-radius: 20px;
-width: 600px;
+width: 750px;
 margin: auto;
 backdrop-filter: blur(8px);
+}
+
+/* Chibi Sprites */
+
+.suspects {
+display: flex;
+justify-content: center;
+gap: 20px;
+margin-top: 20px;
+}
+
+.suspect {
+cursor: pointer;
+transition: 0.3s;
+}
+
+.suspect:hover {
+transform: scale(1.1);
+}
+
+.chibi {
+width: 90px;
+height: 90px;
+background: #ffffff15;
+border-radius: 20px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: auto;
+font-size: 30px;
+}
+
+/* Map */
+
+.map {
+margin-top: 25px;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 10px;
+}
+
+.room {
+background: #ffffff10;
+padding: 20px;
+border-radius: 15px;
+cursor: pointer;
+transition: 0.3s;
+}
+
+.room:hover {
+background: #ffffff20;
+}
+
+/* Evidence */
+
+.evidence {
+margin-top: 20px;
+background: #ffffff10;
+padding: 15px;
+border-radius: 15px;
 }
 
 button {
 background: #8c88d9;
 color: white;
 border: none;
-padding: 10px 18px;
+padding: 10px 20px;
 border-radius: 15px;
-margin: 8px;
+margin-top: 15px;
 cursor: pointer;
-transition: 0.3s;
-}
-
-button:hover {
-background: #a29eff;
-}
-
-.suspect {
-background: #ffffff10;
-padding: 12px;
-margin: 8px;
-border-radius: 15px;
-cursor: pointer;
-transition: 0.3s;
-}
-
-.suspect:hover {
-background: #ffffff20;
-}
-
-.cluebox {
-margin-top: 20px;
-color: #ddd8ff;
 }
 
 input {
@@ -65,11 +102,6 @@ padding: 10px;
 border-radius: 15px;
 border: none;
 margin-top: 15px;
-}
-
-.progress {
-margin-top: 15px;
-color: #cfc2ff;
 }
 
 </style>
@@ -83,32 +115,65 @@ color: #cfc2ff;
 <div class="box">
 
 <p>
-At exactly midnight, the bakery was robbed.<br>
-Flour footprints led to the kitchen...<br>
-Three suspects remain...
+Someone stole pastries at midnight...<br>
+Explore the bakery and question suspects.
 </p>
 
 <h3>✧ Suspects ✧</h3>
 
+<div class="suspects">
+
 <div class="suspect" onclick="suspect('luna')">
-Luna — The night baker
+<div class="chibi">✿</div>
+Luna
 </div>
 
 <div class="suspect" onclick="suspect('milo')">
-Milo — The sleepy guard
+<div class="chibi">✦</div>
+Milo
 </div>
 
 <div class="suspect" onclick="suspect('iris')">
-Iris — The early customer
+<div class="chibi">✧</div>
+Iris
 </div>
 
-<div class="cluebox" id="clue"></div>
-
-<div class="progress" id="progress">
-Clues found: 0 / 3
 </div>
 
-<br>
+<h3>✧ Bakery Map ✧</h3>
+
+<div class="map">
+
+<div class="room" onclick="room('kitchen')">
+Kitchen
+</div>
+
+<div class="room" onclick="room('counter')">
+Front Counter
+</div>
+
+<div class="room" onclick="room('storage')">
+Storage Room
+</div>
+
+<div class="room" onclick="room('office')">
+Office
+</div>
+
+<div class="room" onclick="room('oven')">
+Oven Area
+</div>
+
+<div class="room" onclick="room('backdoor')">
+Back Door
+</div>
+
+</div>
+
+<div class="evidence" id="evidence">
+✧ Evidence Board ✧<br>
+No clues yet...
+</div>
 
 <input type="text" id="answer" placeholder="Who stole it?">
 
@@ -120,45 +185,74 @@ Clues found: 0 / 3
 
 <script>
 
-let clues = 0;
+let clues = []
 
 function suspect(name){
 
-if(name === "luna"){
-document.getElementById("clue").innerHTML =
-"✧ Luna works at midnight and wears a flour-covered apron.";
-clues++
+if(name==="luna" && !clues.includes("luna")){
+clues.push("Luna works at midnight")
 }
 
-if(name === "milo"){
-document.getElementById("clue").innerHTML =
-"✧ Milo was asleep... or was he?";
-clues++
+if(name==="milo" && !clues.includes("milo")){
+clues.push("Milo says he was asleep")
 }
 
-if(name === "iris"){
-document.getElementById("clue").innerHTML =
-"✧ Iris arrives early morning, not midnight.";
-clues++
+if(name==="iris" && !clues.includes("iris")){
+clues.push("Iris arrives early morning")
 }
 
-document.getElementById("progress").innerHTML =
-"Clues found: " + clues + " / 3"
+update()
+
+}
+
+function room(place){
+
+if(place==="kitchen" && !clues.includes("Flour footprints")){
+clues.push("Flour footprints in kitchen")
+}
+
+if(place==="counter" && !clues.includes("Missing pastries")){
+clues.push("Pastries missing from counter")
+}
+
+if(place==="storage" && !clues.includes("Apron")){
+clues.push("Flour-covered apron found")
+}
+
+if(place==="office" && !clues.includes("Schedule")){
+clues.push("Luna scheduled at midnight")
+}
+
+if(place==="oven" && !clues.includes("Warm oven")){
+clues.push("Oven still warm at midnight")
+}
+
+if(place==="backdoor" && !clues.includes("Locked door")){
+clues.push("Back door still locked")
+}
+
+update()
+
+}
+
+function update(){
+
+document.getElementById("evidence").innerHTML =
+"✧ Evidence Board ✧<br>" + clues.join("<br>")
 
 }
 
 function checkAnswer(){
 
-let answer = document.getElementById("answer").value.toLowerCase();
+let answer =
+document.getElementById("answer").value.toLowerCase()
 
-if(answer === "luna" && clues >= 2){
-alert("✧ Correct... Luna baked something mysterious at midnight...");
+if(answer==="luna" && clues.length>=3){
+alert("✧ Correct... Luna secretly baked pastries at midnight...")
 }
-else if(clues < 2){
-alert("✧ Find more clues before guessing...");
-}
+
 else{
-alert("✧ Not quite... Keep investigating...");
+alert("✧ Keep investigating...")
 }
 
 }
