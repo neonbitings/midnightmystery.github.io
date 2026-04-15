@@ -27,7 +27,7 @@ margin: auto;
 backdrop-filter: blur(8px);
 }
 
-/* Dialogue box */
+/* Dialogue */
 
 .dialogue {
 background: #ffffff15;
@@ -42,6 +42,8 @@ font-weight: bold;
 color: #d9d1ff;
 }
 
+/* Map */
+
 .map {
 display: grid;
 grid-template-columns: repeat(3, 1fr);
@@ -54,6 +56,7 @@ background: #ffffff10;
 padding: 20px;
 border-radius: 15px;
 cursor: pointer;
+transition: 0.2s;
 }
 
 .room:hover {
@@ -65,6 +68,7 @@ margin-top: 20px;
 background: #ffffff10;
 padding: 15px;
 border-radius: 15px;
+min-height: 60px;
 }
 
 input {
@@ -176,8 +180,11 @@ update()
 }
 
 function update(){
+
 document.getElementById("evidence").innerHTML =
-"✧ Evidence Board ✧<br>" + [...new Set(clues)].join("<br>")
+"✧ Evidence Board ✧<br>" +
+[...new Set(clues)].join("<br>")
+
 }
 
 function checkAnswer(){
@@ -186,7 +193,30 @@ let answer =
 document.getElementById("answer").value.toLowerCase()
 
 if(answer==="iris" && clues.length>=3){
-alert("✧ Iris secretly received midnight pastries...");
+
+alert("✧ Iris secretly received midnight pastries...")
+
+setTimeout(()=>{
+alert("✧ Iris looks nervous...")
+},1000)
+
+setTimeout(()=>{
+alert("'Someone told me to meet them...'")
+},2000)
+
+setTimeout(()=>{
+alert("✧ A note falls from her pocket...")
+},3000)
+
+setTimeout(()=>{
+alert("'The recipe... take it upstairs...'")
+},4000)
+
+setTimeout(()=>{
+alert("✧ Case 3 Unlocked!")
+window.location.href="case3.html"
+},5000)
+
 }
 else{
 alert("✧ Keep investigating...");
