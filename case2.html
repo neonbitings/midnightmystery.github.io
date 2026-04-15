@@ -27,8 +27,6 @@ margin: auto;
 backdrop-filter: blur(8px);
 }
 
-/* Dialogue */
-
 .dialogue {
 background: #ffffff15;
 padding: 15px;
@@ -42,8 +40,6 @@ font-weight: bold;
 color: #d9d1ff;
 }
 
-/* Map */
-
 .map {
 display: grid;
 grid-template-columns: repeat(3, 1fr);
@@ -56,7 +52,6 @@ background: #ffffff10;
 padding: 20px;
 border-radius: 15px;
 cursor: pointer;
-transition: 0.2s;
 }
 
 .room:hover {
@@ -135,8 +130,6 @@ No clues yet...
 
 <script>
 
-/* Dialogue */
-
 let dialogue = [
 ["Luna", "I... didn't steal them..."],
 ["You", "Then why were you baking at midnight?"],
@@ -162,8 +155,6 @@ document.getElementById("game").style.display="block"
 
 }
 
-/* Game */
-
 let clues = []
 
 function room(place){
@@ -180,11 +171,9 @@ update()
 }
 
 function update(){
-
 document.getElementById("evidence").innerHTML =
 "✧ Evidence Board ✧<br>" +
 [...new Set(clues)].join("<br>")
-
 }
 
 function checkAnswer(){
@@ -214,12 +203,13 @@ alert("'The recipe... take it upstairs...'")
 
 setTimeout(()=>{
 alert("✧ Case 3 Unlocked!")
-window.location.href="case3.html"
+window.location.href="./case3.html"
 },5000)
 
 }
+
 else{
-alert("✧ Keep investigating...");
+alert("✧ Keep investigating...")
 }
 
 }
