@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Case 3 — The Missing Recipe</title>
+
+<style>
+
+body {
+background: linear-gradient(to bottom, #2f2b4a, #3f3a6b);
+font-family: "Segoe UI", sans-serif;
+color: #f3f0ff;
+text-align: center;
+padding: 30px;
+overflow-x: hidden;
+}
+
+h1 {
+color: #e5deff;
+text-shadow: 0 0 10px #cfc2ff;
+}
+
+.box {
+background: #ffffff10;
+padding: 20px;
+border-radius: 20px;
+width: 750px;
+margin: auto;
+backdrop-filter: blur(8px);
+}
+
+.map {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 10px;
+margin-top: 20px;
+}
+
+.room {
+background: #ffffff10;
+padding: 20px;
+border-radius: 15px;
+cursor: pointer;
+transition: 0.2s;
+}
+
+.room:hover {
+background: #ffffff20;
+}
+
+.evidence {
+margin-top: 20px;
+background: #ffffff10;
+padding: 15px;
+border-radius: 15px;
+min-height: 60px;
+}
+
+.sprite {
+width: 100px;
+transition: 0.3s;
+}
+
+.sprite:hover {
+transform: scale(1.1);
+}
+
+.suspects {
+display: flex;
+justify-content: center;
+gap: 30px;
+margin-top: 20px;
+}
+
+button {
+background: #8c88d9;
+color: white;
+border: none;
+padding: 10px 20px;
+border-radius: 15px;
+margin-top: 15px;
+cursor: pointer;
+}
+
+input {
+padding: 10px;
+border-radius: 15px;
+border: none;
+margin-top: 15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>✧ Case 3 — The Missing Recipe ✧</h1>
+
+<div class="box">
+
+<p id="intro"></p>
+
+<h3>✧ Suspects ✧</h3>
+
+<div class="suspects">
+
+<div onclick="suspect('luna')">
+<img class="sprite" src="YOUR_LUNA_LINK">
+<br>Luna
+</div>
+
+<div onclick="suspect('milo')">
+<img class="sprite" src="YOUR_MILO_LINK">
+<br>Milo
+</div>
+
+<div onclick="suspect('iris')">
+<img class="sprite" src="YOUR_IRIS_LINK">
+<br>Iris
+</div>
+
+</div>
+
+<h3>✧ Bakery Upstairs ✧</h3>
+
+<div class="map">
+
+<div class="room" onclick="room('office')">Owner's Office</div>
+<div class="room" onclick="room('library')">Recipe Library</div>
+<div class="room" onclick="room('balcony')">Balcony</div>
+<div class="room" onclick="room('stairs')">Stairs</div>
+<div class="room" onclick="room('desk')">Desk</div>
+<div class="room" onclick="room('drawer')">Drawer</div>
+
+</div>
+
+<div class="evidence" id="evidence">
+✧ Evidence Board ✧ <br>
+No clues yet...
+</div>
+
+<input type="text" id="answer" placeholder="Who took the recipe?">
+
+<br>
+
+<button onclick="solve()">Submit</button>
+
+</div>
+
+<script>
+
+let text =
+"The bakery's secret strawberry recipe has disappeared... Someone inside the bakery took it..."
+
+let i = 0
+
+function typing(){
+if(i < text.length){
+document.getElementById("intro").innerHTML += text.charAt(i)
+i++
+setTimeout(typing,25)
+}
+}
+
+typing()
+
+let clues = []
+
+function suspect(name){
+
+if(name==="luna") clues.push("Luna looks worried")
+if(name==="milo") clues.push("Milo saw someone upstairs")
+if(name==="iris") clues.push("Iris arrived early again")
+
+update()
+
+}
+
+function room(place){
+
+if(place==="office") clues.push("Office door slightly open")
+if(place==="library") clues.push("Recipe book missing")
+if(place==="balcony") clues.push("Wind blew papers")
+if(place==="stairs") clues.push("Footsteps upstairs")
+if(place==="desk") clues.push("Drawer forced open")
+if(place==="drawer") clues.push("Strawberry stain")
+
+update()
+
+}
+
+function update(){
+document.getElementById("evidence").innerHTML =
+"✧ Evidence Board ✧ <br>" +
+[...new Set(clues)].join("<br>")
+}
+
+function solve(){
+
+let answer =
+document.getElementById("answer").value.toLowerCase()
+
+if(answer==="milo" && clues.length>=3){
+
+alert("Milo looks shocked...")
+
+setTimeout(()=>{
+alert("'I didn't steal it...'")
+},1000)
+
+setTimeout(()=>{
+alert("'Someone told me to take it...'")
+},2000)
+
+setTimeout(()=>{
+alert("...A letter falls from Milo's pocket")
+},3000)
+
+setTimeout(()=>{
+alert("✧ Letter: 'Meet me at the abandoned bakery...'")
+},4000)
+
+setTimeout(()=>{
+alert("✧ Case 4 unlocked...")
+window.location.href="case4.html"
+},5000)
+
+}
+
+else{
+alert("Keep investigating...")
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
