@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Case 4 — The Hidden Key</title>
+
+<style>
+
+body {
+background: linear-gradient(to bottom, #2b2b4a, #3d3d6b);
+color: #f5f3ff;
+font-family: "Segoe UI", sans-serif;
+text-align: center;
+padding: 30px;
+}
+
+h1 {
+color: #e8e2ff;
+text-shadow: 0 0 12px #cfc2ff;
+}
+
+.box {
+background: #ffffff10;
+padding: 20px;
+border-radius: 20px;
+width: 750px;
+margin: auto;
+backdrop-filter: blur(10px);
+}
+
+.dialogue {
+background: #ffffff15;
+padding: 15px;
+border-radius: 20px;
+margin-top: 20px;
+cursor: pointer;
+}
+
+.character {
+font-weight: bold;
+color: #dcd4ff;
+}
+
+.map {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 10px;
+margin-top: 20px;
+}
+
+.room {
+background: #ffffff10;
+padding: 20px;
+border-radius: 15px;
+cursor: pointer;
+transition: 0.3s;
+}
+
+.room:hover {
+background: #ffffff20;
+transform: scale(1.05);
+}
+
+.evidence {
+margin-top: 20px;
+background: #ffffff10;
+padding: 15px;
+border-radius: 15px;
+min-height: 60px;
+}
+
+input {
+padding: 10px;
+border-radius: 15px;
+border: none;
+margin-top: 15px;
+}
+
+button {
+background: #9a94ff;
+color: white;
+border: none;
+padding: 10px 20px;
+border-radius: 15px;
+margin-top: 10px;
+cursor: pointer;
+}
+
+.star {
+position: fixed;
+color: #ffffff33;
+animation: float 8s infinite;
+}
+
+@keyframes float {
+0% { transform: translateY(0px); }
+50% { transform: translateY(-20px); }
+100% { transform: translateY(0px); }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="star" style="top:20%; left:10%">✦</div>
+<div class="star" style="top:60%; left:80%">✧</div>
+<div class="star" style="top:30%; left:70%">✦</div>
+
+<h1>✧ Case 4 — The Hidden Key ✧</h1>
+
+<div class="box">
+
+<div class="dialogue" onclick="nextDialogue()">
+<span class="character" id="speaker">Noah</span><br>
+<span id="text">...You shouldn't be here.</span>
+</div>
+
+<div id="game" style="display:none;">
+
+<h3>✧ Explore The Building ✧</h3>
+
+<div class="map">
+
+<div class="room" onclick="room('stairs')">Stairs</div>
+<div class="room" onclick="room('door')">Locked Door</div>
+<div class="room" onclick="room('window')">Window</div>
+<div class="room" onclick="room('desk')">Old Desk</div>
+<div class="room" onclick="room('box')">Dusty Box</div>
+<div class="room" onclick="room('floor')">Scratched Floor</div>
+
+</div>
+
+<div class="evidence" id="evidence">
+✧ Evidence Board ✧<br>
+No clues yet...
+</div>
+
+<input type="text" id="answer" placeholder="Who had the hidden key?">
+
+<br>
+
+<button onclick="checkAnswer()">Submit</button>
+
+</div>
+
+</div>
+
+<script>
+
+let dialogue = [
+["Noah", "...You shouldn't be here."],
+["You", "Who are you?"],
+["Noah", "Just... someone delivering things."],
+["You", "At midnight again?"],
+["Noah", "...You're getting too close."],
+["You", "What are you hiding?"],
+["Noah", "...Find the key."]
+]
+
+let index = 0;
+
+function nextDialogue(){
+
+index++
+
+if(index < dialogue.length){
+document.getElementById("speaker").innerText = dialogue[index][0]
+document.getElementById("text").innerText = dialogue[index][1]
+}
+else{
+document.querySelector(".dialogue").style.display="none"
+document.getElementById("game").style.display="block"
+}
+
+}
+
+let clues = []
+
+function room(place){
+
+if(place==="stairs") clues.push("Footsteps heard upstairs")
+if(place==="door") clues.push("Door locked from inside")
+if(place==="window") clues.push("Window slightly open")
+if(place==="desk") clues.push("Old key mark")
+if(place==="box") clues.push("Delivery label found")
+if(place==="floor") clues.push("Scratched floor near door")
+
+update()
+
+}
+
+function update(){
+document.getElementById("evidence").innerHTML =
+"✧ Evidence Board ✧<br>" +
+[...new Set(clues)].join("<br>")
+}
+
+function checkAnswer(){
+
+let answer =
+document.getElementById("answer").value.toLowerCase()
+
+if(answer==="noah" && clues.length>=3){
+
+alert("✧ Noah slowly hands you a key...")
+
+setTimeout(()=>{
+alert("'You're too late...'")
+},1000)
+
+setTimeout(()=>{
+alert("✧ The door upstairs suddenly opens...")
+},2000)
+
+setTimeout(()=>{
+alert("✧ You see someone familiar inside...")
+},3000)
+
+setTimeout(()=>{
+alert("...It's someone from your own team.")
+},4000)
+
+setTimeout(()=>{
+alert("✧ CASE 5 UNLOCKED — TO BE CONTINUED ✧")
+},5000)
+
+}
+
+else{
+alert("✧ Something doesn't match...")
+}
+
+}
+
+</script>
+
+</body>
+</html>
